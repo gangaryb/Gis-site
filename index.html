@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gangary Intelligence Systems</title>
+<link rel="stylesheet" href="styles/main.css">
+<script src="scripts/chatbot.js" defer></script>
+</head>
+<body>
+<header>
+<h1>Gangary Intelligence Systems</h1>
+<p>AI Consulting • System Modernization • Symbolic Economy</p>
+<a href="services.html">Services</a>
+<a href="book.html">Book a Call</a>
+<a href="audit.html">Quick Audit Upload</a>
+</header>
+<section>
+<h2>Symbolic Economy Dashboard</h2>
+<div id="dashboard"></div>
+<script>
+fetch("https://srv-d294nq49c44c73d4h5mg.render.com/api/dashboard")
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById("dashboard").innerHTML =
+      "<p><strong>Symbolic GDP:</strong> " + data.symbolic_gdp + "</p>" +
+      "<p><strong>Active Clients:</strong> " + data.active_clients + "</p>" +
+      "<p><strong>Next Event:</strong> " + data.next_event + "</p>";
+  });
+</script>
+</section>
+<section>
+<h2>Client Testimonials</h2>
+<p>"GIS transformed our operations — ROI in 3 months." – TechCorp CEO</p>
+<p>"Their modernization audit saved us $2M annually." – FinanceLead Inc.</p>
+</section>
+</body>
+</html>
