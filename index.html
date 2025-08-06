@@ -1,37 +1,119 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Gangary Intelligence Systems</title>
-<link rel="stylesheet" href="styles/main.css">
-<script src="scripts/chatbot.js" defer></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Gangary Intelligence Systems - Symbolic AI, Compliance Automation, and Sovereign OS Solutions" />
+    <title>Gangary Intelligence Systems</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0d0d0d;
+            color: white;
+        }
+        header {
+            background: linear-gradient(90deg, #4b0082, #000);
+            padding: 20px;
+            text-align: center;
+        }
+        header .logo {
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        nav {
+            margin-top: 10px;
+        }
+        nav a {
+            color: #ccc;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: white;
+        }
+        .hero {
+            padding: 60px 20px;
+            text-align: center;
+            background: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b') center/cover no-repeat;
+            color: white;
+        }
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+        .hero p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .cta {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 15px 30px;
+            background: #ff6600;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .cta:hover {
+            background: #ff8533;
+        }
+        section {
+            padding: 40px 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+        h2 {
+            color: #ff6600;
+            margin-bottom: 15px;
+        }
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #111;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-<header>
-<h1>Gangary Intelligence Systems</h1>
-<p>AI Consulting • System Modernization • Symbolic Economy</p>
-<a href="services.html">Services</a>
-<a href="book.html">Book a Call</a>
-<a href="audit.html">Quick Audit Upload</a>
-</header>
-<section>
-<h2>Symbolic Economy Dashboard</h2>
-<div id="dashboard"></div>
-<script>
-fetch("https://srv-d294nq49c44c73d4h5mg.render.com/api/dashboard")
-  .then(r => r.json())
-  .then(data => {
-    document.getElementById("dashboard").innerHTML =
-      "<p><strong>Symbolic GDP:</strong> " + data.symbolic_gdp + "</p>" +
-      "<p><strong>Active Clients:</strong> " + data.active_clients + "</p>" +
-      "<p><strong>Next Event:</strong> " + data.next_event + "</p>";
-  });
-</script>
-</section>
-<section>
-<h2>Client Testimonials</h2>
-<p>"GIS transformed our operations — ROI in 3 months." – TechCorp CEO</p>
-<p>"Their modernization audit saved us $2M annually." – FinanceLead Inc.</p>
-</section>
+    <header>
+        <div class="logo">Gangary Intelligence Systems</div>
+        <nav>
+            <a href="#products">Products</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Symbolic AI for the New Era</h1>
+        <p>Powerful compliance, automation, and symbolic intelligence solutions to secure, grow, and transform your organization.</p>
+        <a href="#contact" class="cta">Get Started</a>
+    </div>
+
+    <section id="products">
+        <h2>Our Products</h2>
+        <p>We offer cutting-edge tools like ProtoKernel™, Compliance Audit CoPilot™, and MeshHubOS™ to automate and enhance your operations.</p>
+    </section>
+
+    <section id="services">
+        <h2>Our Services</h2>
+        <p>From symbolic consulting to full sovereign OS deployment, GIS delivers solutions designed to fit your exact needs.</p>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <p>Email: gangaryba@gmail.com</p>
+        <p>Phone: 347-260-4290</p>
+    </section>
+
+    <footer>
+        &copy; 2025 Gangary Intelligence Systems. All Rights Reserved.
+    </footer>
 </body>
 </html>
