@@ -1,0 +1,14 @@
+name: Contact
+description: Start a conversation with GIS
+title: "Contact: "
+labels: ["contact"]
+body:
+  - type: input
+    id: name
+    attributes: { label: Your Name }
+  - type: input
+    id: email
+    attributes: { label: Email }
+  - type: textarea
+    id: message
+    attributes: { label: Message, description: What can we help you build? }
