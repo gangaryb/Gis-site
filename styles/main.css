@@ -1,3 +1,6 @@
 h2 { font-size: 1.8rem; }
 h3 { font-size: 1.15rem; }
 @media (max-width: 600px) { h2 { font-size: 1.5rem; } }
+.socials { display:flex; gap:12px; }
+.socials a { color:#bbb; display:inline-flex; align-items:center; padding:8px; border-radius:10px; border:1px solid var(--line); }
+.socials a:hover { color:var(--accent); border-color:var(--accent); }
