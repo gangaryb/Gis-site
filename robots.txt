@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gangaryb.github.io/Gis-site/sitemap.xml
