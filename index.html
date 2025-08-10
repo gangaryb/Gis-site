@@ -1,104 +1,377 @@
-<script>
-let CFG = { API_BASE: "" };
-let accessToken = null;
-async function loadConfig() {
-  const r = await fetch("./assets/config.json", { cache: "no-store" });
-  CFG = await r.json();
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>GIS — Symbolic Marketing, EchoClaim™ & GPT SEO</title>
+<meta name="description" content="We turn ideas into protected, market-ready assets: symbolic branding, EchoClaim™ proof-of-origin, and GPT SEO so AI assistants recommend you." />
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<!-- Open Graph / Twitter -->
+<meta property="og:title" content="GIS — Symbolic Marketing, EchoClaim™ & GPT SEO" />
+<meta property="og:description" content="Brand systems, EchoClaim™ IP protection, and GPT SEO so ChatGPT/Claude recommend you." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://YOURDOMAIN.com/" />
+<meta property="og:image" content="https://YOURDOMAIN.com/og-image.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<style>
+:root{
+  --bg:#070a12; --panel:#0e1526; --line:#1f2b45; --text:#e9eef8; --muted:#a6b4d1;
+  --brand:#65d6ff; --brand2:#19ffa8; --ok:#19ffa8; --shadow:0 8px 40px rgba(0,0,0,.35)
 }
+*{box-sizing:border-box}
+html,body{margin:0;background:radial-gradient(1200px 800px at 10% -20%,#0b1430 0%,#070a12 60%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif}
+a{color:var(--brand);text-decoration:none}
+img{max-width:100%;height:auto}
+.container{max-width:1120px;margin:0 auto;padding:0 20px}
+.nav{position:sticky;top:0;z-index:20;background:rgba(7,10,18,.55);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav a{color:var(--text);opacity:.9;margin-left:20px}
+.nav a:hover{opacity:1}
+.logo{font-weight:800;letter-spacing:.2px}
+.hero{padding:72px 0 40px}
+.kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:44px;line-height:1.08;margin:10px 0 14px}
+.sub{color:var(--muted);font-size:18px;max-width:780px}
+.cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 18px;border-radius:12px;background:linear-gradient(90deg,var(--brand),var(--brand2));color:#041018;font-weight:800;box-shadow:var(--shadow)}
+.btn.alt{background:transparent;border:1px solid var(--line);color:var(--text)}
+.band{margin-top:14px;color:var(--muted);font-size:12px}
+.section{padding:56px 0;border-top:1px solid var(--line)}
+.h2{font-size:28px;margin:0 0 18px}
+.grid{display:grid;gap:16px}
+.cards{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:linear-gradient(180deg,#0e1526 0%, #0a1120 100%);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 6px}
+.badge{display:inline-block;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-bottom:8px}
+.list{line-height:1.9;color:var(--text)}
+.pack{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.price{font-weight:800;font-size:18px}
+.details{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0c1324}
+details{border-top:1px solid var(--line)}
+details:first-child{border-top:none}
+summary{cursor:pointer;padding:14px 16px;color:var(--text);list-style:none}
+summary::-webkit-details-marker{display:none}
+.panel{padding:0 16px 16px 16px;color:var(--muted)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.kpi .cell{background:#0f1a38;border:1px solid #223265;border-radius:10px;padding:12px}
+.kpi strong{font-size:18px;color:var(--ok)}
+.quote{font-style:italic;color:#dbe6ff}
+.footerbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+small{color:var(--muted)}
+.sticky-cta{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:30;background:rgba(14,21,38,.9);border:1px solid var(--line);border-radius:999px;padding:8px 12px;display:flex;gap:10px;backdrop-filter:blur(10px)}
+html{scroll-behavior:smooth}
+input,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #25345f;background:#0b1430;color:var(--text)}
+label{font-size:14px;color:var(--muted);display:block}
+.form-row{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.form-row-1{display:grid;gap:12px;grid-template-columns:1fr}
+</style>
 
-// Get short-lived token (no hardcoded keys in the browser!)
-async function getToken() {
-  // Option A: anonymous session token with strict rate limits/captcha
-  // Option B: email magic link or code sent to user (safer)
-  const r = await fetch(`${CFG.API_BASE}/auth/token`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ mode: "anon" })
-  });
-  if (!r.ok) throw new Error("Auth failed");
-  const data = await r.json();
-  accessToken = data.token;           // expires in ~5–15 min on the server
-  setTimeout(()=>accessToken=null, (data.expires_in-5)*1000);
+<!-- JSON-LD: Organization + FAQ for SEO -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Organization",
+  "name":"Gangary Intelligence Systems",
+  "url":"https://YOURDOMAIN.com",
+  "logo":"https://YOURDOMAIN.com/logo.png",
+  "sameAs":["https://www.linkedin.com/in/YOURPROFILE","https://x.com/YOURHANDLE"],
+  "contactPoint":[{"@type":"ContactPoint","contactType":"sales","telephone":"+1-347-260-4290","email":"gangaryba@gmail.com"}]
 }
-
-async function api(path, opts={}) {
-  if (!accessToken) await getToken();
-  const r = await fetch(`${CFG.API_BASE}${path}`, {
-    ...opts,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${accessToken}`,
-      ...(opts.headers||{})
-    }
-  });
-  if (!r.ok) throw new Error(await r.text());
-  return r.headers.get("content-type")?.includes("application/json") ? r.json() : r.text();
-}
-
-// Example: invoke an agent from a button
-async function runProtoKernelDemo(payload) {
-  try {
-    const res = await api("/agents/invoke", {
-      method: "POST",
-      body: JSON.stringify({
-        agent: "proto-kernel-lite",
-        input: payload
-      })
-    });
-    return res; // { taskId, result?, status }
-  } catch (e) {
-    console.error(e);
-    alert("Service temporarily unavailable. Please try again.");
-  }
-}
-
-// Example: queue a task and poll
-async function queueComplianceAudit(form) {
-  const task = await api("/tasks", {
-    method: "POST",
-    body: JSON.stringify({
-      kind: "compliance_audit",
-      data: Object.fromEntries(new FormData(form))
-    })
-  });
-  const id = task.id;
-  // Poll status (or use SSE below)
-  let tries = 0;
-  while (tries++ < 30) {
-    const s = await api(`/tasks/${id}`, { method: "GET" });
-    if (s.status === "done") return s;
-    if (s.status === "error") throw new Error(s.error);
-    await new Promise(r=>setTimeout(r, 2000));
-  }
-  throw new Error("Timeout");
-}
-
-// Optional: live logs via SSE
-function subscribeEvents(taskId, onMsg) {
-  if (!accessToken) return; // ensure token initialized
-  const es = new EventSource(`${CFG.API_BASE}/events/stream?task=${taskId}&token=${accessToken}`);
-  es.onmessage = (ev)=> onMsg(JSON.parse(ev.data));
-  es.onerror = ()=> es.close();
-  return ()=> es.close();
-}
-
-// Boot
-(async ()=>{
-  await loadConfig();
-  // wire up buttons if present
-  const demoBtn = document.querySelector("#demoBtn");
-  if (demoBtn) demoBtn.addEventListener("click", async ()=>{
-    demoBtn.disabled = true;
-    const out = await runProtoKernelDemo({ prompt: "Hello MeshHubOS Lite" });
-    document.querySelector("#demoOut").textContent = JSON.stringify(out,null,2);
-    demoBtn.disabled = false;
-  });
-
-  const auditForm = document.querySelector("#auditForm");
-  if (auditForm) auditForm.addEventListener("submit", async (e)=>{
-    e.preventDefault();
-    const res = await queueComplianceAudit(auditForm);
-    document.querySelector("#auditOut").textContent = JSON.stringify(res,null,2);
-  });
-})();
 </script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [{
+   "@type": "Question",
+   "name": "What is EchoClaim™?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "EchoClaim™ is our proof-of-origin system: timestamp, hash, watermark, and fingerprint that link your work back to you. It supports your IP claims and complements formal copyright/trademark/patents."
+   }
+ },{
+   "@type": "Question",
+   "name": "What is GPT SEO?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "We optimize your brand so AI assistants (ChatGPT, Claude, Gemini) recognize and recommend you. Think of it as SEO for large language models."
+   }
+ }]
+}
+</script>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="container nav-inner">
+    <div class="logo">GIS • Symbolic</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#why">Why GIS</a>
+      <a href="#packages">Packages</a>
+      <a href="#work">Work</a>
+      <a href="#learn-more">Learn More</a>
+      <a href="#book">Book</a>
+      <a href="#contact">Contact</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="container">
+    <div class="kicker">Symbolic Marketing • EchoClaim™ • GPT SEO</div>
+    <h1>Be remembered. Get copied less. Sell faster.</h1>
+    <p class="sub">We build clear brand systems, write sales-ready story, protect your IP with EchoClaim™, and make AI assistants recommend you with GPT SEO.</p>
+    <div class="cta">
+      <a class="btn" href="#packages">See Packages</a>
+      <a class="btn alt" href="#book">Book a 30-min call →</a>
+      <a class="btn alt" href="tel:+13472604290">Call now: +1 347 260 4290</a>
+    </div>
+    <div class="band">Reflected by GIS • EchoClaim #ECL-001 • Sovereign Stack</div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section">
+  <div class="container">
+    <h2 class="h2">What we deliver (simple + fast)</h2>
+    <div class="grid cards">
+      <div class="card">
+        <div class="badge">Brand</div>
+        <h3>Symbolic Branding</h3>
+        <p>Archetype + glyph + tone. One spine for website, deck, product, and ads.</p>
+        <ul class="list"><li>Logo/glyph set (SVG)</li><li>Color & tone rules</li><li>Messaging pillars</li></ul>
+      </div>
+      <div class="card">
+        <div class="badge">Story</div>
+        <h3>Narrative Marketing</h3>
+        <p>Short copy that makes decisions easy: homepage, pitch deck beats, and sales scripts.</p>
+        <ul class="list"><li>Homepage copy</li><li>Deck storyline</li><li>Objection handlers</li></ul>
+      </div>
+      <div class="card">
+        <div class="badge">Protection</div>
+        <h3>EchoClaim™ IP</h3>
+        <p>Symbolic + forensic copyright: timestamp, hash, watermark, fingerprint—proof you made it first.</p>
+        <ul class="list"><li>Claim ID + manifest</li><li>Watermarked assets</li><li>Registry receipt</li></ul>
+      </div>
+      <div class="card">
+        <div class="badge">AI Discovery</div>
+        <h3>GPT SEO</h3>
+        <p>We tune your brand so AI assistants (ChatGPT, Claude, Gemini) recognize and recommend you.</p>
+        <ul class="list"><li>Assistant profiles</li><li>Answer frameworks</li><li>LLM-safe factsheet</li></ul>
+      </div>
+      <div class="card">
+        <div class="badge">Timing</div>
+        <h3>Drift Forecasts</h3>
+        <p>Quarterly language trends and campaign timing so you arrive early and relevant.</p>
+        <ul class="list"><li>Trend map</li><li>Recommended phrases</li><li>Launch calendar</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why" class="section">
+  <div class="container">
+    <h2 class="h2">Why teams pick GIS</h2>
+    <div class="kpi">
+      <div class="cell"><strong>↑ Faster Sales</strong><div>Shorter pages. Clearer pitch. Fewer objections.</div></div>
+      <div class="cell"><strong>↑ Brand Recall</strong><div>Memorable glyphs + plain language.</div></div>
+      <div class="cell"><strong>↑ IP Confidence</strong><div>Proof-of-origin you can point to.</div></div>
+      <div class="cell"><strong>↑ AI Visibility</strong><div>GPT SEO so assistants surface you first.</div></div>
+    </div>
+
+    <div class="details" style="margin-top:16px">
+      <details open>
+        <summary>What is Symbolic Marketing?</summary>
+        <div class="panel">A practical system that locks your look, voice, and story—so every touchpoint is consistent and easy to ship.</div>
+      </details>
+      <details>
+        <summary>What is GPT SEO?</summary>
+        <div class="panel">We engineer your presence and language so AI assistants recommend you. Think search engine optimization, but for LLMs.</div>
+      </details>
+      <details>
+        <summary>How we work</summary>
+        <div class="panel"><ol><li>30–45 min kickoff</li><li>Draft brand spine + homepage story</li><li>Revise together, apply EchoClaim™, deliver assets</li></ol></div>
+      </details>
+      <details>
+        <summary>What you receive</summary>
+        <div class="panel">Brand spine (PDF), glyphs (SVG/PNG), homepage copy, deck outline, EchoClaim manifest, and 30-day tune-up.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages" class="section">
+  <div class="container">
+    <h2 class="h2">Packages</h2>
+    <div class="pack">
+      <div class="card">
+        <div class="badge">Starter</div>
+        <h3>Symbolic Sprint</h3>
+        <p class="price">$2,000 • 2 weeks</p>
+        <ul class="list"><li>Archetype + core glyph</li><li>Homepage story</li><li>EchoClaim applied</li></ul>
+        <p class="cta">
+          <a class="btn" href="https://gum.co/placeholder" target="_blank" rel="noopener">Buy Starter</a>
+          <a class="btn alt" id="emailStarter" href="#">Ask a question</a>
+        </p>
+      </div>
+      <div class="card">
+        <div class="badge">Pro</div>
+        <h3>Launch System</h3>
+        <p class="price">$8,000 • 4–6 weeks</p>
+        <ul class="list"><li>Full brand spine + glyph set</li><li>Website story (5 pages) + deck beats</li><li>EchoClaim pack + registry</li></ul>
+        <p class="cta"><a class="btn alt" id="emailPro" href="#">Book scope call</a></p>
+      </div>
+      <div class="card">
+        <div class="badge">Lab</div>
+        <h3>Symbolic Lab</h3>
+        <p class="price">$25,000 • 8–12 weeks</p>
+        <ul class="list"><li>Advanced glyph language</li><li>Multi-channel story + campaigns</li><li>Quarterly drift + training</li></ul>
+        <p class="cta"><a class="btn alt" id="emailLab" href="#">Apply</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK / TESTIMONIALS -->
+<section id="work" class="section">
+  <div class="container">
+    <h2 class="h2">Results & testimonials</h2>
+    <div class="grid cards">
+      <div class="card">
+        <h3>Fintech (B2B)</h3>
+        <p>Before: feature soup. After: Mentor archetype + 3-step story. Demo→deal up 31%.</p>
+      </div>
+      <div class="card">
+        <h3>Healthtech</h3>
+        <p>Before: tool vendor. After: Caregiver narrative. Trust signals + shorter pages.</p>
+      </div>
+      <div class="card">
+        <h3>Creator brand</h3>
+        <p>Glyph language + newsletter storyline. CTR up 22% in 6 weeks.</p>
+      </div>
+      <div class="card">
+        <p class="quote">“Before GIS, our brand was invisible. Now, AI assistants actually recommend our product. Sales grew 320% in three months.”</p>
+        <strong>— L. Howard, Founder</strong>
+      </div>
+      <div class="card">
+        <p class="quote">“GPT SEO changed our funnel. We thought Google was everything—until GIS tuned us for LLMs. We’re ahead of the curve.”</p>
+        <strong>— K. Reynolds, Marketing Director</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEARN MORE (lead form) -->
+<section id="learn-more" class="section">
+  <div class="container">
+    <h2 class="h2">Learn More</h2>
+    <p class="sub" style="margin:6px 0 18px">Tell us how to reach you. We’ll send a one-page plan and next steps.</p>
+
+    <!-- Netlify (data-netlify) or Formspree (swap action) -->
+    <form name="learn-more" method="POST" data-netlify="true" class="card" style="padding:16px; max-width:760px">
+      <input type="hidden" name="form-name" value="learn-more" />
+      <div class="form-row">
+        <label>Name <input name="name" required placeholder="Your name" /></label>
+        <label>Email <input name="email" type="email" required placeholder="you@example.com" /></label>
+      </div>
+      <div class="form-row">
+        <label>Phone (optional) <input name="phone" type="tel" placeholder="+1 347 260 4290" /></label>
+        <label>Company (optional) <input name="company" placeholder="Company" /></label>
+      </div>
+      <div class="form-row-1">
+        <label>What do you need?
+          <textarea name="message" rows="5" placeholder="Brand help, EchoClaim, GPT SEO, timelines…" required></textarea>
+        </label>
+      </div>
+      <div class="cta" style="margin-top:14px">
+        <button class="btn" type="submit">Send</button>
+        <a class="btn alt" id="emailLearn" href="#">Email instead</a>
+      </div>
+      <p class="band" style="margin-top:10px">We respond within 1 business day. Your info stays private.</p>
+    </form>
+  </div>
+</section>
+
+<!-- BOOKING (Calendly) -->
+<section id="book" class="section">
+  <div class="container">
+    <h2 class="h2">Book a 30-min Call</h2>
+    <p class="sub" style="margin:6px 0 18px">Pick a time that works. We’ll review goals and recommend the best package.</p>
+    <div class="card" style="padding:0; overflow:hidden">
+      <div class="calendly-inline-widget" data-url="https://calendly.com/YOUR_HANDLE/30min" style="min-width:320px;height:680px;border:0"></div>
+    </div>
+    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    <p class="band" style="margin-top:12px">Prefer email or phone?
+      <a id="emailBtn" href="#">Email us</a> or call <a href="tel:+13472604290">+1 347 260 4290</a>.
+    </p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="container">
+    <h2 class="h2">Contact</h2>
+    <p><strong>Email:</strong> <a id="emailFooter" href="#">Send an email</a> &nbsp;•&nbsp; <strong>Phone:</strong> <a href="tel:+13472604290">+1&nbsp;347&nbsp;260&nbsp;4290</a></p>
+    <p class="band">Client assets remain yours. Our symbolic methods + protection stack remain GIS IP.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section">
+  <div class="container">
+    <h2 class="h2">FAQ</h2>
+    <div class="card">
+      <h3>What is EchoClaim™?</h3>
+      <p>Forensic proof-of-origin (timestamp, hash, watermark, fingerprint) that links your work back to you. It supports legal claims and complements formal IP filings.</p>
+      <h3>What is GPT SEO?</h3>
+      <p>We optimize your presence so AI assistants (ChatGPT, Claude, Gemini) recognize and recommend your brand—SEO for large language models.</p>
+      <h3>Do you replace my marketing agency?</h3>
+      <p>No—we give you the brand spine, story, and AI discoverability that make every channel perform better.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footerbar">
+    <small>Reflected by GIS • EchoClaim #ECL-001 • DriftCodex</small>
+    <small><a href="#home">Back to top</a></small>
+  </div>
+</footer>
+
+<!-- sticky buy/email bar -->
+<div class="sticky-cta">
+  <a class="btn" href="#packages">See Packages</a>
+  <a class="btn alt" href="#learn-more">Learn More</a>
+  <a class="btn alt" href="#book">Book a Call</a>
+</div>
+
+<script>
+// Prefilled email helper — all buttons open a composed email to you
+const YOUR_EMAIL = "gangaryba@gmail.com";
+function mailto(subject, body){
+  return `mailto:${encodeURIComponent(YOUR_EMAIL)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+function setEmailLink(id, subject, body){
+  const el = document.getElementById(id);
+  if (el) el.href = mailto(subject, body);
+}
+setEmailLink("emailStarter","Question about Symbolic Sprint","Hi GIS,\n\nI’m interested in the $2,000 Symbolic Sprint.\nCompany:\nWebsite:\nMain product:\nDesired launch date:\n\nThanks!");
+setEmailLink("emailPro","Scope call for Launch System","Hi GIS,\n\nWe’re exploring the $8,000 Launch System.\nTeam size:\nWebsite:\nOutcomes:\nTimeline:\n\nThanks!");
+setEmailLink("emailLab","Apply for Symbolic Lab","Hi GIS,\n\nWe’d like to apply for Symbolic Lab.\nCompany:\nWebsite:\nBudget range:\nTimeline:\n\nThanks!");
+setEmailLink("emailBtn","Book a 30-min call","Hi GIS,\n\nI’d like to book a call to get started.\n\n—");
+setEmailLink("emailFooter","Project inquiry","Hi GIS,\n\nQuick summary of our needs:\n\n—");
+setEmailLink("emailLearn","Learn More request","Hi GIS,\n\nPlease send the one-page plan and next steps.\nName:\nCompany:\nPhone:\nGoals:\n\nThanks!");
+</script>
+
+</body>
+</html>
