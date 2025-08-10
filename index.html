@@ -6,14 +6,100 @@
   <title>Gangary Intelligence Systems — Symbolic AI for the New Era</title>
   <meta name="description" content="Compliance, automation, and symbolic intelligence to secure, grow, and transform your organization. Products: ProtoKernel™, Compliance Audit CoPilot™, MeshHubOS™." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%2300d1b2'/%3E%3Cstop offset='1' stop-color='%2311ffee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='60' cy='60' r='56' fill='url(%23g)'/%3E%3Ctext x='60' y='78' text-anchor='middle' font-size='64' font-family='Arial, Helvetica, sans-serif' fill='%230a0a0a'%3EG%3C/text%3E%3C/svg%3E">
+
+  <!-- Open Graph -->
   <meta property="og:title" content="Gangary Intelligence Systems — Symbolic AI for the New Era">
   <meta property="og:description" content="Powerful compliance, automation, and symbolic intelligence solutions.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://gangaryb.github.io/Gis-site/">
   <meta property="og:image" content="https://gangaryb.github.io/Gis-site/assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
+
   <link rel="stylesheet" href="./assets/style.css" />
-  <!-- EchoGlyph: GIS-Sovereign-2025 v2 -->
+  <style>
+    /* --- minimal page-specific bits --- */
+    :root{ --accent:#00d1b2; --accent2:#11ffee; --bg:#0b0e14; --panel:#101521; --card:#121827; --line:#1f2633; --text:#eef2ff; --muted:#a7b0c0; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:radial-gradient(60% 60% at 50% 40%, #0b0e14 0%, #07090e 100%);line-height:1.6}
+
+    /* nav */
+    .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(8,10,16,.6);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line)}
+    .brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:800}
+    .glyph{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;color:#0a0a0a;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+    .brand-text{opacity:.9}
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .nav-links a{color:var(--text);text-decoration:none;font-weight:600}
+    .nav-links a:hover{color:var(--accent)}
+    .btn{display:inline-block;padding:12px 18px;border-radius:12px;background:var(--accent);color:#0a0a0a;text-decoration:none;font-weight:800;box-shadow:0 10px 30px rgba(0,209,178,.15)}
+    .btn:hover{filter:brightness(.96)}
+    .btn-outline{display:inline-block;padding:12px 18px;border-radius:12px;border:1px solid var(--accent);color:var(--accent);text-decoration:none;font-weight:800}
+    .btn.sm{padding:8px 12px;border-radius:10px;font-weight:700}
+
+    /* hero */
+    .hero{padding:84px 20px 54px}
+    .grid{display:grid;gap:24px}
+    .hero-grid{grid-template-columns:1.1fr .9fr;align-items:center;max-width:1200px;margin:0 auto}
+    .lead{opacity:.92;max-width:720px}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0 8px}
+    .hero-points{list-style:none;padding:0;margin:18px 0 0;color:var(--muted)}
+    .hero-points li::before{content:"— ";color:var(--accent)}
+    .hero-art{position:relative;height:360px;border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#0e1320,#0b0e14)}
+    .mesh{position:absolute;inset:0;background-image:
+      radial-gradient(2px 2px at 20px 20px, rgba(0,209,178,.6) 0, transparent 40%),
+      radial-gradient(2px 2px at 80px 80px, rgba(17,255,238,.5) 0, transparent 40%)}
+    .orb{position:absolute;filter:blur(20px);opacity:.5;border-radius:50%}
+    .orb-1{width:220px;height:220px;background:conic-gradient(from 0deg,var(--accent),var(--accent2));top:-30px;right:-40px;animation:float 9s ease-in-out infinite}
+    .orb-2{width:180px;height:180px;background:radial-gradient(circle at 30% 30%,var(--accent2),transparent 60%);bottom:-20px;left:-30px;animation:float 11s ease-in-out reverse infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+    /* sections/cards */
+    .section{padding:44px 20px}
+    .section-title{max-width:1200px;margin:0 auto 16px;font-size:1.8rem}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;max-width:1200px;margin:0 auto}
+    .card{background:linear-gradient(180deg,rgba(18,24,39,.9),rgba(14,18,30,.9));border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 20px 60px rgba(0,0,0,.35);transition:transform .2s ease,border-color .2s ease}
+    .card:hover{transform:translateY(-2px);border-color:var(--accent)}
+    .card p{color:var(--muted)}
+    .more{display:inline-block;margin-top:10px;color:var(--accent);text-decoration:none;font-weight:800}
+    .demo.stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;max-width:1200px;margin:0 auto}
+    .form label{display:block;margin:8px 0;color:#c7d0e0}
+    .form input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text)}
+    .output{margin-top:12px;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d111a;border:1px solid var(--line);border-radius:12px;padding:14px;color:#c6e9e3;min-height:88px}
+
+    /* Compliance GPT UI */
+    .cgpt-window{background:#0d111a;border:1px solid var(--line);border-radius:12px;min-height:220px;max-height:420px;overflow:auto;padding:14px}
+    .cgpt-form{display:flex;gap:10px;margin:10px 0}
+    .cgpt-form input{flex:1;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text)}
+    .cgpt-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-size:.95rem}
+    .cgpt-foot{opacity:.7;text-align:center;margin-top:8px;font-size:.9rem}
+    .msg{display:flex;gap:10px;margin:8px 0}
+    .msg .role{font-weight:700;color:var(--accent)}
+    .msg .bubble{background:#101521;border:1px solid var(--line);border-radius:12px;padding:10px;flex:1;color:#c7d0e0}
+    .msg.user .bubble{background:#111827}
+    .msg.assistant .bubble{background:#0f1726}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;padding:20px}
+    .modal[hidden]{display:none}
+    .modal .modal-inner{max-width:520px;width:100%}
+
+    /* footer */
+    .footer{border-top:1px solid var(--line);padding:18px 20px;margin-top:34px}
+    .footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .socials a{color:#b8c0d0;display:inline-flex;align-items:center;padding:8px;border:1px solid var(--line);border-radius:10px}
+    .socials a:hover{color:var(--accent);border-color:var(--accent)}
+    .glyph.small{width:22px;height:22px;border-radius:6px;font-size:.85rem;display:inline-grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0a0a0a;font-weight:900}
+
+    /* always-on EMAIL FAB */
+    .email-fab{
+      position:fixed; right:16px; bottom:16px; z-index:60;
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 14px; border-radius:999px; background:var(--accent); color:#0a0a0a;
+      text-decoration:none; font-weight:800; box-shadow:0 10px 30px rgba(0,209,178,.35);
+    }
+    .email-fab:hover{filter:brightness(.96)}
+    .email-fab .dot{width:10px;height:10px;border-radius:50%;background:#0a0a0a;opacity:.35}
+    @media (max-width:900px){ .hero-grid{grid-template-columns:1fr}.brand-text{display:none} }
+  </style>
+
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -21,103 +107,18 @@
     "name":"Gangary Intelligence Systems",
     "url":"https://gangaryb.github.io/Gis-site/",
     "logo":"https://gangaryb.github.io/Gis-site/assets/og.png",
-    "sameAs":["https://github.com/gangaryb"],
+    "sameAs":[ "https://github.com/gangaryb" ],
     "contactPoint":[{"@type":"ContactPoint","contactType":"Sales","email":"gangaryba@gmail.com","telephone":"+13472604290"}]
   }
   </script>
 </head>
-<script>
-let CFG = { API_BASE: "" };
-let accessToken = null;
-let freeCount = 3;
-
-async function loadConfig() {
-  const r = await fetch("../assets/config.json", { cache: "no-store" });
-  CFG = await r.json();
-}
-
-async function getToken() {
-  const r = await fetch(`${CFG.API_BASE}/auth/token`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ mode: "anon" })
-  });
-  const data = await r.json();
-  accessToken = data.token;
-}
-
-async function api(path, opts={}) {
-  if (!accessToken) await getToken();
-  const r = await fetch(`${CFG.API_BASE}${path}`, {
-    ...opts,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${accessToken}`,
-      ...(opts.headers || {})
-    }
-  });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-
-document.addEventListener("DOMContentLoaded", async ()=>{
-  await loadConfig();
-
-  const form = document.getElementById("cgptForm");
-  const input = document.getElementById("cgptInput");
-  const win = document.getElementById("cgptWindow");
-  const counter = document.getElementById("cgptCounter");
-  const modal = document.getElementById("cgptModal");
-
-  form.addEventListener("submit", async e=>{
-    e.preventDefault();
-    if (freeCount <= 0) {
-      modal.hidden = false;
-      return;
-    }
-
-    const q = input.value.trim();
-    if (!q) return;
-    win.innerHTML += `<div class="msg user">${q}</div>`;
-    input.value = "";
-    freeCount--;
-    counter.textContent = `${freeCount} free questions left today.`;
-
-    win.innerHTML += `<div class="msg ai">Thinking...</div>`;
-    win.scrollTop = win.scrollHeight;
-
-    try {
-      const res = await api("/agents/invoke", {
-        method: "POST",
-        body: JSON.stringify({ agent: "compliance-gpt", input: { prompt: q } })
-      });
-      win.querySelector(".msg.ai:last-child").textContent = res.result || "(no answer)";
-    } catch (err) {
-      win.querySelector(".msg.ai:last-child").textContent = "Error: " + err.message;
-    }
-  });
-
-  document.getElementById("cgptClear").addEventListener("click", ()=>{
-    win.innerHTML = "";
-    freeCount = 3;
-    counter.textContent = "3 free questions left today.";
-  });
-
-  modal.querySelectorAll("[data-close]").forEach(btn=>{
-    btn.addEventListener("click", ()=> modal.hidden = true);
-  });
-});
-</script>
 <body>
   <!-- NAV -->
   <header class="nav">
-    <a class="brand" href="#home" aria-label="Home">
-      <span class="glyph">G</span>
-      <span class="brand-text">Gangary Intelligence Systems</span>
-    </a>
+    <a class="brand" href="#home" aria-label="Home"><span class="glyph">G</span><span class="brand-text">Gangary Intelligence Systems</span></a>
     <nav class="nav-links">
       <a href="#products">Products</a>
-      <a href="#services">Services</a>
+      <a href="./service/">Services</a>
       <a href="#demos">Demos</a>
       <a class="btn sm" href="mailto:gangaryba@gmail.com?subject=GIS%20Inquiry&body=Hi%20GIS%2C%20I%27m%20interested%20in%20...">Email Us</a>
     </nav>
@@ -126,20 +127,20 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   <!-- HERO -->
   <section id="home" class="hero">
     <div class="grid hero-grid">
-      <div class="hero-copy">
-        <h1 class="reveal">Symbolic AI for the New Era</h1>
-        <p class="lead reveal">Compliance, automation, and symbolic intelligence to secure, grow, and transform your organization.</p>
-        <div class="cta-row reveal">
-          <a class="btn" href="#contact">Get Started</a>
+      <div>
+        <h1>Symbolic AI for the New Era</h1>
+        <p class="lead">Compliance, automation, and symbolic intelligence to secure, grow, and transform your organization.</p>
+        <div class="cta-row">
+          <a class="btn" href="mailto:gangaryba@gmail.com?subject=GIS%20Pilot%20Request&body=Company%20name%3A%0AUse%20case%3A%0ATimeline%3A%0A">Request a Pilot</a>
           <a class="btn-outline" href="#products">Explore Products</a>
         </div>
-        <ul class="hero-points reveal">
+        <ul class="hero-points">
           <li>EchoNull™ safety & sovereignty</li>
           <li>ProtoKernel™ reflective agents</li>
           <li>MeshHubOS™ multi-agent automation</li>
         </ul>
       </div>
-      <div class="hero-art reveal" aria-hidden="true">
+      <div class="hero-art" aria-hidden="true">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="mesh"></div>
@@ -151,7 +152,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   <section id="products" class="section">
     <h2 class="section-title">Our Products</h2>
     <div class="cards">
-      <article class="card tilt">
+      <article class="card">
         <h3>ProtoKernel™</h3>
         <p><strong>Core symbolic engine</strong> for reflective, auditable agents.</p>
         <ul>
@@ -159,10 +160,9 @@ document.addEventListener("DOMContentLoaded", async ()=>{
           <li>Policy-safe action planning</li>
           <li>Traceable memory + logs</li>
         </ul>
-        <a class="more" href="#contact">Request a pilot →</a>
+        <a class="more" href="./products/proto-kernel.html">Learn more →</a>
       </article>
-
-      <article class="card tilt">
+      <article class="card">
         <h3>Compliance Audit CoPilot™</h3>
         <p><strong>Automate compliance</strong> across policies and standards.</p>
         <ul>
@@ -170,10 +170,9 @@ document.addEventListener("DOMContentLoaded", async ()=>{
           <li>Evidence vault & audit trails</li>
           <li>Executive-ready reporting</li>
         </ul>
-        <a class="more" href="#contact">See a demo →</a>
+        <a class="more" href="./products/compliance-audit-copilot.html">Learn more →</a>
       </article>
-
-      <article class="card tilt">
+      <article class="card">
         <h3>MeshHubOS™</h3>
         <p><strong>Sovereign multi-agent OS</strong> for ops, support, and R&amp;D.</p>
         <ul>
@@ -181,53 +180,14 @@ document.addEventListener("DOMContentLoaded", async ()=>{
           <li>Access controls & safety</li>
           <li>KPIs and automation</li>
         </ul>
-        <a class="more" href="#demos">Try a live call →</a>
+        <a class="more" href="./products/meshhubos.html">Learn more →</a>
       </article>
     </div>
   </section>
 
-  <!-- SERVICES -->
-  <section id="services" class="section">
-    <h2 class="section-title">Our Services</h2>
-    <div class="cards">
-      <article class="card">
-        <h3>Symbolic Consulting</h3>
-        <p>Narrative architecture, echo strategy, and IP sovereignty.</p>
-        <ul>
-          <li>Positioning & message framework</li>
-          <li>Echo tracking (EchoClaim™ / EchoNull™)</li>
-          <li>GTM & growth playbooks</li>
-        </ul>
-      </article>
-      <article class="card">
-        <h3>Sovereign OS Deployment</h3>
-        <p>Stand up safe autonomous agents tailored to your workflows.</p>
-        <ul>
-          <li>Orchestration & guardrails</li>
-          <li>Data access controls</li>
-          <li>KPIs & automation</li>
-        </ul>
-      </article>
-      <article class="card">
-        <h3>Compliance Automation</h3>
-        <p>Reduce manual checks and produce audit-ready evidence.</p>
-        <ul>
-          <li>Policy mapping & alerts</li>
-          <li>Evidence vault + trails</li>
-          <li>Reports for leadership</li>
-        </ul>
-      </article>
-    </div>
-    <div class="center gap">
-      <a class="btn" href="#contact">Talk to Sales</a>
-      <a class="btn-outline" href="mailto:gangaryba@gmail.com?subject=GIS%20Inquiry&body=Tell%20us%20about%20your%20use%20case">Email Us</a>
-    </div>
-  </section>
-
-  <!-- DEMOS (MeshHubOS Lite hooks) -->
+  <!-- DEMOS -->
   <section id="demos" class="section">
     <h2 class="section-title">Live Demos</h2>
-
     <div class="demo stack">
       <div class="card">
         <h3>ProtoKernel — Quick Call</h3>
@@ -248,13 +208,45 @@ document.addEventListener("DOMContentLoaded", async ()=>{
     </div>
   </section>
 
+  <!-- COMPLIANCE GPT -->
+  <section id="compliance" class="section">
+    <h2 class="section-title">Compliance AI Assistant</h2>
+    <div class="card" style="max-width:900px;margin:0 auto">
+      <div id="cgptWindow" class="cgpt-window" aria-live="polite"></div>
+
+      <form id="cgptForm" class="cgpt-form" autocomplete="off">
+        <input id="cgptInput" name="q" required placeholder="Ask a compliance question… (e.g., Do we need a DPA for GDPR?)" />
+        <button class="btn" type="submit">Send</button>
+      </form>
+
+      <div class="cgpt-meta">
+        <span id="cgptCounter">3 free questions left today.</span>
+        <button id="cgptClear" class="btn-outline sm" type="button">Clear chat</button>
+      </div>
+
+      <div class="cgpt-foot">Powered by <strong>GIS Compliance Audit CoPilot™</strong></div>
+    </div>
+  </section>
+
+  <!-- UPGRADE MODAL -->
+  <div id="cgptModal" class="modal" hidden>
+    <div class="modal-inner card">
+      <h3>Get Pro Access</h3>
+      <p>You’ve used your free questions for today. Upgrade for unlimited queries, priority answers, and downloadable reports.</p>
+      <div class="center" style="gap:10px">
+        <a class="btn" href="https://your-checkout-link" target="_blank" rel="noopener">Upgrade to Pro</a>
+        <button class="btn-outline" type="button" data-close>Keep browsing</button>
+      </div>
+    </div>
+  </div>
+
   <!-- CONTACT -->
-  <section id="contact" class="section contact">
-    <div class="card">
+  <section id="contact" class="section">
+    <div class="card" style="max-width:900px;margin:0 auto">
       <h2 class="section-title">Contact Us</h2>
       <p><strong>Email:</strong> <a href="mailto:gangaryba@gmail.com">gangaryba@gmail.com</a></p>
       <p><strong>Phone:</strong> <a href="tel:+13472604290">+1 (347) 260-4290</a></p>
-      <div class="center gap">
+      <div class="cta-row">
         <a class="btn" href="mailto:gangaryba@gmail.com?subject=GIS%20Pilot%20Request&body=Company%20name%3A%0AUse%20case%3A%0ATimeline%3A%0A">Request a Pilot</a>
         <a class="btn-outline" href="https://github.com/gangaryb/Gis-site/issues/new?template=contact.yml" target="_blank" rel="noopener">Open a Contact Ticket</a>
       </div>
@@ -264,27 +256,103 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-inner">
-      <div class="left">
-        <span class="glyph small">G</span>
-        <span>© 2025 Gangary Intelligence Systems</span>
-      </div>
+      <div class="left"><span class="glyph small">G</span><span>© 2025 Gangary Intelligence Systems</span></div>
       <div class="right socials">
-        <a aria-label="LinkedIn" href="#" target="_blank" rel="noopener" title="LinkedIn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5zM3 8.98h4v12H3zM9 8.98h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.65 4.78 6.1v6.21h-4v-5.51c0-1.32-.03-3.03-1.85-3.03-1.86 0-2.15 1.45-2.15 2.94v5.6H9z"/></svg>
-        </a>
-        <a aria-label="X (Twitter)" href="#" target="_blank" rel="noopener" title="X">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3l7.5 9.2L3.8 21h3.1l5.2-6.1 4.6 6.1H21l-7.7-10L20.1 3h-3.1l-4.6 5.4L8.2 3z"/></svg>
-        </a>
         <a aria-label="GitHub" href="https://github.com/gangaryb" target="_blank" rel="noopener" title="GitHub">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.94c.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.36-1.3-1.72-1.3-1.72-1.06-.73.08-.72.08-.72 1.18.08 1.8 1.22 1.8 1.22 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.28.75-1.57-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.26 1.2-3.05-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.16a11.05 11.05 0 0 1 5.79 0c2.2-1.47 3.17-1.16 3.17-1.16.64 1.58.24 2.75.12 3.04.75.79 1.2 1.8 1.2 3.05 0 4.41-2.69 5.39-5.25 5.67.42.36.8 1.07.8 2.15v3.19c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
-        </a>
-        <a aria-label="YouTube" href="#" target="_blank" rel="noopener" title="YouTube">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 7.5s-.23-1.66-.95-2.39c-.91-.95-1.93-.96-2.4-1.02C16.79 4 12 4 12 4h0s-4.79 0-8.15.09c-.47.06-1.5.07-2.4 1.02C.73 5.84.5 7.5.5 7.5S.27 9.41.27 11.31v1.38C.27 14.59.5 16.5.5 16.5s.23 1.66.95 2.39c.91.95 2.1.92 2.64 1.02 1.92.18 7.91.09 7.91.09s4.79 0 8.15-.09c.47-.06 1.49-.07 2.4-1.02.72-.73.95-2.39.95-2.39s.23-1.91.23-3.81v-1.38c0-1.9-.23-3.81-.23-3.81zM9.75 14.8V8.7l6.3 3.06-6.3 3.04z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.94c.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.36-1.3-1.72-1.3-1.72-1.06-.73.08-.72.08-.72 1.18.08 1.8 1.22 1.8 1.22 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.28.75-1.57-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.26 1.2-3.05-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.16a11.05 11.05 0 0 1 5.79 0c2.2-1.47 3.17-1.16 3.17-1.16.64 1.58.24 2.75.12 3.04.75.79 1.2 1.8 1.2 3.05 0 4.41-2.69 5.39-5.25 5.67.42.36.8 1.07.8 2.15v3.19c0 .31.21 .68 .8 .56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
         </a>
       </div>
     </div>
   </footer>
 
+  <!-- ALWAYS-ON EMAIL BUTTON (FAB) -->
+  <a class="email-fab" href="mailto:gangaryba@gmail.com?subject=GIS%20Inquiry&body=Hi%20GIS%2C%20I%27m%20interested%20in%20...">
+    <span class="dot"></span> Email Us
+  </a>
+
+  <!-- Scripts -->
   <script src="./assets/site.js"></script>
-</body>
-</html>
+
+  <script>
+    // --- Compliance GPT (front-end) using site.js api() if present; else minimal local wrapper ---
+    (async function(){
+      // If global api() exists (from site.js), we use it; else define minimal fetcher
+      const hasApi = typeof window.api === "function";
+      let CFG = { API_BASE: "" }, accessToken = null;
+      async function loadConfig(){ try{ const r = await fetch("./assets/config.json",{cache:"no-store"}); if(r.ok) CFG = await r.json(); }catch{} }
+      async function getToken(){
+        const r = await fetch(`${CFG.API_BASE}/auth/token`, { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ mode:"anon" }) });
+        const data = await r.json(); accessToken = data.token;
+      }
+      async function localApi(path, opts={}){
+        if(!accessToken) await getToken();
+        const r = await fetch(`${CFG.API_BASE}${path}`, {
+          ...opts,
+          headers: { "Content-Type":"application/json", "Authorization":`Bearer ${accessToken}`, ...(opts.headers||{}) }
+        });
+        if(!r.ok) throw new Error(await r.text());
+        const ct = r.headers.get("content-type")||""; return ct.includes("application/json") ? r.json() : r.text();
+      }
+
+      // Free quota (client hint; enforce on server too)
+      const FREE_LIMIT = 3;
+      const win = document.getElementById("cgptWindow");
+      const form = document.getElementById("cgptForm");
+      const input = document.getElementById("cgptInput");
+      const counter = document.getElementById("cgptCounter");
+      const modal = document.getElementById("cgptModal");
+      const clearBtn = document.getElementById("cgptClear");
+      if(!win || !form) return;
+
+      const dayKey = ()=>{ const d = new Date(); return `${d.getUTCFullYear()}-${d.getUTCMonth()+1}-${d.getUTCDate()}`; };
+      function quota(){
+        const k = "cgpt_quota_v1"; const today = dayKey();
+        const raw = localStorage.getItem(k);
+        if(!raw) { const v = { day: today, used: 0 }; localStorage.setItem(k, JSON.stringify(v)); return v; }
+        const obj = JSON.parse(raw);
+        if(obj.day !== today) { const v = { day: today, used: 0 }; localStorage.setItem(k, JSON.stringify(v)); return v; }
+        return obj;
+      }
+      function incQuota(){ const k="cgpt_quota_v1"; const q = quota(); q.used = (q.used||0)+1; localStorage.setItem(k, JSON.stringify(q)); return q.used; }
+      function left(){ const q = quota(); return Math.max(0, FREE_LIMIT - (q.used||0)); }
+      function setCounter(){ if(counter) counter.textContent = `${left()} free question${left()===1?"":"s"} left today.`; }
+
+      function render(role, text){
+        const row = document.createElement("div");
+        row.className = `msg ${role}`;
+        const who = document.createElement("div"); who.className = "role"; who.textContent = role==="user" ? "You" : "GIS";
+        const bubble = document.createElement("div"); bubble.className = "bubble"; bubble.textContent = text;
+        row.appendChild(who); row.appendChild(bubble); win.appendChild(row); win.scrollTop = win.scrollHeight;
+      }
+
+      async function sendQuestion(q){
+        // enforce free limit (frontend); server should enforce real limit
+        if(left() <= 0){ modal.hidden = false; throw new Error("Free limit reached"); }
+        const payload = { message: q };
+        const call = hasApi ? window.api : localApi;
+        const res = await call("/chat/compliance", { method:"POST", body: JSON.stringify(payload) });
+        incQuota();
+        return res;
+      }
+
+      // init
+      await loadConfig();
+      win.innerHTML = "";
+      render("assistant", "Hi! I’m your GIS Compliance Assistant. Ask about SOC 2, ISO 27001, HIPAA, GDPR, or policy specifics.");
+      setCounter();
+
+      form.addEventListener("submit", async (e)=>{
+        e.preventDefault();
+        const q = (input.value||"").trim(); if(!q) return;
+        render("user", q); input.value = "";
+        render("assistant", "Thinking…");
+        const last = win.querySelector(".msg.assistant:last-child .bubble");
+        try{
+          const out = await sendQuestion(q);
+          last.textContent = out.reply || "(No reply)";
+        }catch(err){
+          last.textContent = err.message || "Something went wrong.";
+        }finally{
+          setCounter();
+        }
+      });
