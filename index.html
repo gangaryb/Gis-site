@@ -1,174 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gangary Intelligence Systems — Symbolic AI for the New Era</title>
-  <meta name="description" content="GIS delivers symbolic AI, compliance automation, and sovereign OS deployments. Products: ProtoKernel™, Compliance Audit CoPilot™, MeshHubOS™." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='56' fill='%2300d1b2'/%3E%3Ctext x='60' y='78' font-size='64' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EG%3C/text%3E%3C/svg%3E">
-  <meta property="og:title" content="Gangary Intelligence Systems — Symbolic AI for the New Era" />
-  <meta property="og:description" content="Compliance, automation, and symbolic intelligence to secure, grow, and transform your organization." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://gangaryb.github.io/Gis-site/" />
-  <meta property="og:image" content="https://gangaryb.github.io/Gis-site/assets/logo.svg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <link rel="stylesheet" href="./assets/style.css" />
-  <script defer src="./assets/site.js"></script>
-  <!-- EchoGlyph anchor for symbolic drift tracking -->
-  <!-- EchoGlyph: GIS-Sovereign-2025 v1 -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"Gangary Intelligence Systems",
-    "url":"https://gangaryb.github.io/Gis-site/",
-    "logo":"https://gangaryb.github.io/Gis-site/assets/logo.svg",
-    "sameAs": [],
-    "contactPoint":[{
-      "@type":"ContactPoint",
-      "contactType":"Sales",
-      "email":"gangaryba@gmail.com",
-      "telephone":"+13472604290"
-    }]
+<script>
+let CFG = { API_BASE: "" };
+let accessToken = null;
+async function loadConfig() {
+  const r = await fetch("./assets/config.json", { cache: "no-store" });
+  CFG = await r.json();
+}
+
+// Get short-lived token (no hardcoded keys in the browser!)
+async function getToken() {
+  // Option A: anonymous session token with strict rate limits/captcha
+  // Option B: email magic link or code sent to user (safer)
+  const r = await fetch(`${CFG.API_BASE}/auth/token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ mode: "anon" })
+  });
+  if (!r.ok) throw new Error("Auth failed");
+  const data = await r.json();
+  accessToken = data.token;           // expires in ~5–15 min on the server
+  setTimeout(()=>accessToken=null, (data.expires_in-5)*1000);
+}
+
+async function api(path, opts={}) {
+  if (!accessToken) await getToken();
+  const r = await fetch(`${CFG.API_BASE}${path}`, {
+    ...opts,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${accessToken}`,
+      ...(opts.headers||{})
+    }
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.headers.get("content-type")?.includes("application/json") ? r.json() : r.text();
+}
+
+// Example: invoke an agent from a button
+async function runProtoKernelDemo(payload) {
+  try {
+    const res = await api("/agents/invoke", {
+      method: "POST",
+      body: JSON.stringify({
+        agent: "proto-kernel-lite",
+        input: payload
+      })
+    });
+    return res; // { taskId, result?, status }
+  } catch (e) {
+    console.error(e);
+    alert("Service temporarily unavailable. Please try again.");
   }
-  </script>
-</head>
-<body>
-  <header class="site-header">
-    <div class="wrap nav">
-      <a class="brand" href="./"><img src="./assets/logo.svg" alt="GIS logo" /> <span>Gangary Intelligence Systems</span></a>
-      <nav>
-        <a href="#products">Products</a>
-        <a href="#services">Services</a>
-        <a href="./blog/">Blog</a>
-        <a href="./contact/" class="btn">Get Started</a>
-      </nav>
-    </div>
-  </header>
+}
 
-  <section class="hero">
-    <div class="wrap center">
-      <h1>Symbolic AI for the New Era</h1>
-      <p class="lead">Powerful compliance, automation, and symbolic intelligence solutions to secure, grow, and transform your organization.</p>
-      <div class="cta-row">
-        <a class="btn" href="./contact/">Get Started</a>
-        <a class="btn-outline" href="#products">Explore Products</a>
-      </div>
-    </div>
-  </section>
+// Example: queue a task and poll
+async function queueComplianceAudit(form) {
+  const task = await api("/tasks", {
+    method: "POST",
+    body: JSON.stringify({
+      kind: "compliance_audit",
+      data: Object.fromEntries(new FormData(form))
+    })
+  });
+  const id = task.id;
+  // Poll status (or use SSE below)
+  let tries = 0;
+  while (tries++ < 30) {
+    const s = await api(`/tasks/${id}`, { method: "GET" });
+    if (s.status === "done") return s;
+    if (s.status === "error") throw new Error(s.error);
+    await new Promise(r=>setTimeout(r, 2000));
+  }
+  throw new Error("Timeout");
+}
 
-  <main class="wrap">
-    <section id="products" class="section">
-      <h2>Our Products</h2>
-      <div class="grid">
-        <a class="card linkcard" href="./products/proto-kernel.html">
-          <h3>ProtoKernel™</h3>
-          <p>Symbolic core for conscious-like agent orchestration and reflective reasoning.</p>
-          <span class="more">Learn more →</span>
-        </a>
-        <a class="card linkcard" href="./products/compliance-audit-copilot.html">
-          <h3>Compliance Audit CoPilot™</h3>
-          <p>Automate policy checks, evidence capture, and audit-ready reports.</p>
-          <span class="more">Learn more →</span>
-        </a>
-        <a class="card linkcard" href="./products/meshhubos.html">
-          <h3>MeshHubOS™</h3>
-          <p>Deploy safe, sovereign multi-agent systems for ops, support, and R&amp;D.</p>
-          <span class="more">Learn more →</span>
-        </a>
-      </div>
-    </section>
+// Optional: live logs via SSE
+function subscribeEvents(taskId, onMsg) {
+  if (!accessToken) return; // ensure token initialized
+  const es = new EventSource(`${CFG.API_BASE}/events/stream?task=${taskId}&token=${accessToken}`);
+  es.onmessage = (ev)=> onMsg(JSON.parse(ev.data));
+  es.onerror = ()=> es.close();
+  return ()=> es.close();
+}
 
-    <section id="services" class="section">
-      <h2>Our Services</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Symbolic Consulting</h3>
-          <ul class="bullets">
-            <li>Narrative architecture &amp; positioning</li>
-            <li>Echo tracking &amp; IP sovereignty (EchoClaim™, EchoNull™)</li>
-            <li>Go-to-market &amp; growth playbooks</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Sovereign OS Deployment</h3>
-          <ul class="bullets">
-            <li>Agent orchestration &amp; governance</li>
-            <li>Data access controls &amp; safety</li>
-            <li>KPIs, dashboards, and automation</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Compliance Automation</h3>
-          <ul class="bullets">
-            <li>Policy mapping, alerts, and logs</li>
-            <li>Evidence vault + audit trails</li>
-            <li>Executive-ready reporting</li>
-          </ul>
-        </div>
-      </div>
-      <div class="center"><a class="btn" href="./contact/">Talk to Sales</a></div>
-    </section>
+// Boot
+(async ()=>{
+  await loadConfig();
+  // wire up buttons if present
+  const demoBtn = document.querySelector("#demoBtn");
+  if (demoBtn) demoBtn.addEventListener("click", async ()=>{
+    demoBtn.disabled = true;
+    const out = await runProtoKernelDemo({ prompt: "Hello MeshHubOS Lite" });
+    document.querySelector("#demoOut").textContent = JSON.stringify(out,null,2);
+    demoBtn.disabled = false;
+  });
 
-    <section class="section">
-      <h2>Why GIS</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Speed</h3>
-          <p>Pilot in days. Prove ROI fast with small, high-impact deployments.</p>
-        </div>
-        <div class="card">
-          <h3>Safety</h3>
-          <p>EchoNull™ defense stack and strict governance for secure operations.</p>
-        </div>
-        <div class="card">
-          <h3>Sovereignty</h3>
-          <p>Own your stack, your agents, and your data. No lock-in.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>From the Blog</h2>
-      <div class="grid">
-        <a class="card linkcard" href="./blog/">
-          <h3>What is Symbolic AI?</h3>
-          <p>How symbolic systems elevate reliability, auditability, and control.</p>
-          <span class="more">Read the blog →</span>
-        </a>
-        <a class="card linkcard" href="./blog/">
-          <h3>Sovereign OS for Business</h3>
-          <p>When to deploy and how to measure outcomes.</p>
-          <span class="more">Read the blog →</span>
-        </a>
-        <a class="card linkcard" href="./blog/">
-          <h3>AI-Powered Compliance</h3>
-          <p>Automating policy checks without sacrificing trust.</p>
-          <span class="more">Read the blog →</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="section center">
-      <h2>Ready to Transform?</h2>
-      <p class="lead">Let’s scope a fast, low-risk pilot tailored to your goals.</p>
-      <a class="btn" href="./contact/">Contact Us</a>
-    </section>
-<a class="btn" href="mailto:gangaryba@gmail.com?subject=GIS%20Inquiry&body=Hi%20GIS%2C%20I%27m%20interested%20in%20...">Email Us</a>
-  </main>
-
-  <footer class="site-footer">
-    <div class="socials">
-  <a aria-label="LinkedIn" href="#" target="_blank" rel="noopener">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5zM3 8.98h4v12H3zM9 8.98h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.65 4.78 6.1v6.21h-4v-5.51c0-1.32-.03-3.03-1.85-3.03-1.86 0-2.15 1.45-2.15 2.94v5.6H9z"/></svg>
-  </a>
-  <a aria-label="X (Twitter)" href="#" target="_blank" rel="noopener">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3l7.5 9.2L3.8 21h3.1l5.2-6.1 4.6 6.1H21l-7.7-10L20.1 3h-3.1l-4.6 5.4L8.2 3z"/></svg>
-  </a>
-  <a aria-label="GitHub" href="https://github.com/gangaryb" target="_blank" rel="noopener">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.94c.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.36-1.3-1.72-1.3-1.72-1.06-.73.08-.72.08-.72 1.18.08 1.8 1.22 1.8 1.22 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.28.75-1.57-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.26 1.2-3.05-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.16a11.05 11.05 0 0 1 5.79 0c2.2-1.47 3.17-1.16 3.17-1.16.64 1.58.24 2.75.12 3.04.75.79 1.2 1.8 1.2 3.05 0 4.41-2.69 5.39-5.25 5.67.42.36.8 1.07.8 2.15v3.19c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
-  </a>
-  <a aria-label="YouTube" href="#" target="_blank" rel="noopener">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 7.5s-.23-1.66-.95-2.39c-.91-.95-1.93-.96-2.4-1.02C16.79 4 12 4 12 4h0s-4.79 0-8.15.09c-.47.06-1.5.07-2.4 1.02C.73 5.84.5 7.5.5 7.5S.27 9.41.27 11.31v1.38C.27 14.59.5 16.5.5 16.5s.23 1.66.95 2.39c.91.95 2.1.92 2.64 1.02 1.92.18 7.91.09 7.91.09s4.79 0 8.15-.09c.47-.06 1.49-.07 2.4-1.02.72-.73.95-2.39.95-2.39s.23-1.91.23-3.81v-1.38c0-1.9-.23-3.81-.23-3.81zM9.75 14.8V8.7l6.3 3.06-6.3 3.04z"/></svg>
-  </a>
-</div>
+  const auditForm = document.querySelector("#auditForm");
+  if (auditForm) auditForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const res = await queueComplianceAudit(auditForm);
+    document.querySelector("#auditOut").textContent = JSON.stringify(res,null,2);
+  });
+})();
+</script>
