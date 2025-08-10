@@ -26,6 +26,88 @@
   }
   </script>
 </head>
+<script>
+let CFG = { API_BASE: "" };
+let accessToken = null;
+let freeCount = 3;
+
+async function loadConfig() {
+  const r = await fetch("../assets/config.json", { cache: "no-store" });
+  CFG = await r.json();
+}
+
+async function getToken() {
+  const r = await fetch(`${CFG.API_BASE}/auth/token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ mode: "anon" })
+  });
+  const data = await r.json();
+  accessToken = data.token;
+}
+
+async function api(path, opts={}) {
+  if (!accessToken) await getToken();
+  const r = await fetch(`${CFG.API_BASE}${path}`, {
+    ...opts,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${accessToken}`,
+      ...(opts.headers || {})
+    }
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+document.addEventListener("DOMContentLoaded", async ()=>{
+  await loadConfig();
+
+  const form = document.getElementById("cgptForm");
+  const input = document.getElementById("cgptInput");
+  const win = document.getElementById("cgptWindow");
+  const counter = document.getElementById("cgptCounter");
+  const modal = document.getElementById("cgptModal");
+
+  form.addEventListener("submit", async e=>{
+    e.preventDefault();
+    if (freeCount <= 0) {
+      modal.hidden = false;
+      return;
+    }
+
+    const q = input.value.trim();
+    if (!q) return;
+    win.innerHTML += `<div class="msg user">${q}</div>`;
+    input.value = "";
+    freeCount--;
+    counter.textContent = `${freeCount} free questions left today.`;
+
+    win.innerHTML += `<div class="msg ai">Thinking...</div>`;
+    win.scrollTop = win.scrollHeight;
+
+    try {
+      const res = await api("/agents/invoke", {
+        method: "POST",
+        body: JSON.stringify({ agent: "compliance-gpt", input: { prompt: q } })
+      });
+      win.querySelector(".msg.ai:last-child").textContent = res.result || "(no answer)";
+    } catch (err) {
+      win.querySelector(".msg.ai:last-child").textContent = "Error: " + err.message;
+    }
+  });
+
+  document.getElementById("cgptClear").addEventListener("click", ()=>{
+    win.innerHTML = "";
+    freeCount = 3;
+    counter.textContent = "3 free questions left today.";
+  });
+
+  modal.querySelectorAll("[data-close]").forEach(btn=>{
+    btn.addEventListener("click", ()=> modal.hidden = true);
+  });
+});
+</script>
 <body>
   <!-- NAV -->
   <header class="nav">
