@@ -1,0 +1,6 @@
+site_name: GIS Docs
+site_url: https://gangaryb.github.io/gis-site/
+theme:
+  name: material
+nav:
+  - Home: index.md
